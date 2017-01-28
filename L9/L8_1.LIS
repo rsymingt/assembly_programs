@@ -1,0 +1,66 @@
+
+Source file: L8_1.X68
+Assembled on: 16-11-17 at: 18:49:14
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1  00008024                        ORG       $8024
+    2  00008024 4EF90000A012           JMP       T5
+    3  0000802A 4EF90000A000           JMP       T6
+    4  00008030 4EF90000A004           JMP       T7
+    5                        
+    6  00009000                        ORG       $9000
+    7  00009000              START:              
+    8  00009000 4E47                   TRAP      #7
+    9  00009002 4E71                   NOP       
+   10  00009004 4E46                   TRAP      #6
+   11                         
+   12  00009006 4E4E                   TRAP      #14
+   13                        
+   14  0000A000                        ORG       $A000
+   15  0000A000 40D7         T6:       MOVE.W    SR,(SP)
+   16  0000A002 4E73                   RTE       
+   17                        
+   18  0000A004 40C0         T7:       MOVE.W    SR,D0
+   19  0000A006 04402000               SUB.W     #$2000,D0
+   20  0000A00A 06408000               ADD.W     #$8000,D0
+   21  0000A00E 3E80                   MOVE.W    D0,(SP)
+   22  0000A010 4E73                   RTE       
+   23                        
+   24  0000A012 48E78000     T5:       MOVEM.L   D0,-(SP)
+   25  0000A016 3F03                   MOVE.W    D3,-(SP)
+   26  0000A018 4EB90000A026           JSR       DIS
+   27  0000A01E 361F                   MOVE.W    (SP)+,D3
+   28  0000A020 4CDF0001               MOVEM.L   (SP)+,D0
+   29  0000A024 4E73                   RTE       
+   30                         
+   31  0000A026 4E56FFFC     DIS:      LINK      A6,#-4
+   32  0000A02A 48E78000               MOVEM.L   D0,-(SP)
+   33                        
+   34  0000A02E 4280                   CLR.L     D0
+   35  0000A030 302E0008               MOVE.W    8(A6),D0
+   36                         
+   37  0000A034 0C400000               CMPI.W    #0,D0
+   38  0000A038 67000026               BEQ       END
+   39                        
+   40  0000A03C 81FC000A               DIVS      #10,D0
+   41                        
+   42  0000A040 3D40FFFE               MOVE.W    D0,-2(A6)
+   43  0000A044 4240                   CLR.W     D0
+   44  0000A046 4840                   SWAP      D0
+   45  0000A048 3D40FFFC               MOVE.W    D0,-4(A6)
+   46                        
+   47  0000A04C 3F2EFFFE               MOVE.W    -2(A6),-(SP)
+   48  0000A050 4EB90000A026           JSR       DIS
+   49                        
+   50  0000A056 302EFFFC               MOVE.W    -4(A6),D0
+   51  0000A05A 06400030               ADD.W     #48,D0
+   52  0000A05E 4E41                   TRAP      #1
+   53                         
+   54  0000A060 4CDF0001     END:      MOVEM.L   (SP)+,D0
+   55  0000A064 4E5E                   UNLK      A6
+   56  0000A066 4E75                   RTS       
+   57                        
+   58           00009000               END       START
+
+Lines: 58, Errors: 0, Warnings: 0.

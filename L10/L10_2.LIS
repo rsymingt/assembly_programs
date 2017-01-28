@@ -1,0 +1,72 @@
+
+Source file: L10_2.X68
+Assembled on: 16-11-24 at: 18:11:41
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1           0000C001     DUART:    EQU       $C001
+    2           00000002     SRA:      EQU       2
+    3           00000006     TBA:      EQU       6
+    4                        
+    5  00008000                        ORG       $8000
+    6  00008000 00000064     MESSAGE:  DS.B      100
+    7                        
+    8  00009000                        ORG       $9000
+    9  00009000 41F90000C001 START:    LEA       DUART,A0
+   10  00009006 43F900008000           LEA       MESSAGE,A1
+   11                        
+   12  0000900C 4EB90000901A           JSR       SCAN
+   13                         
+   14  00009012 4EB900009050           JSR       PRINT
+   15                        
+   16  00009018 4E4E         END:      TRAP      #14
+   17                         
+   18                        
+   19  0000901A 4E560000     SCAN:     LINK      A6,#0
+   20  0000901E 48E78140               MOVEM.L   D0/A1/D7,-(SP)
+   21  00009022 12FC000D               MOVE.B    #$0D,(A1)+
+   22  00009026 12FC000A               MOVE.B    #$0A,(A1)+
+   23                        
+   24  0000902A 1E280002     SCAN2:    MOVE.B    SRA(A0),D7
+   25  0000902E 02070001               ANDI.B    #1,D7
+   26  00009032 67F6                   BEQ       SCAN2
+   27  00009034 10280006               MOVE.B    TBA(A0),D0
+   28                         
+   29  00009038 0C00000D               CMPI.B    #$0D,D0
+   30  0000903C 67000006               BEQ       ENDSCAN
+   31                         
+   32  00009040 12C0                   MOVE.B    D0,(A1)+
+   33  00009042 60E6                   BRA       SCAN2
+   34                         
+   35  00009044 12FC0000     ENDSCAN:  MOVE.B    #0,(A1)+
+   36  00009048 4CDF0281               MOVEM.L   (SP)+,D0/A1/D7
+   37  0000904C 4E5E                   UNLK      A6
+   38  0000904E 4E75                   RTS       
+   39                        
+   40  00009050 4E560000     PRINT:    LINK      A6,#0
+   41  00009054 48E78000               MOVEM.L   D0,-(SP)
+   42  00009058 4280         PRINT2:   CLR.L     D0
+   43                         
+   44  0000905A 1019                   MOVE.B    (A1)+,D0
+   45  0000905C 6700000A               BEQ       ENDP
+   46  00009060 4EB900009070           JSR       PRINTCHAR
+   47  00009066 60F0                   BRA       PRINT2
+   48                         
+   49  00009068 4CDF0001     ENDP:     MOVEM.L   (SP)+,D0
+   50  0000906C 4E5E                   UNLK      A6
+   51  0000906E 4E75                   RTS       
+   52                        
+   53  00009070              PRINTCHAR:           
+   54  00009070 48E78000               MOVEM.L   D0,-(SP)
+   55                        
+   56  00009074 1E280002     CHECK:    MOVE.B    SRA(A0),D7
+   57  00009078 02070004               ANDI.B    #4,D7
+   58  0000907C 67F6                   BEQ       CHECK
+   59  0000907E 11400006               MOVE.B    D0,TBA(A0)
+   60                        
+   61  00009082 4CDF0001               MOVEM.L   (SP)+,D0
+   62  00009086 4E75                   RTS       
+   63                        
+   64           00009000               END       START
+
+Lines: 64, Errors: 0, Warnings: 0.

@@ -1,0 +1,51 @@
+
+Source file: L6_3.X68
+Assembled on: 16-10-27 at: 17:32:21
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1  00008000                        ORG       $8000
+    2  00008000 207C00009000 START:    MOVEA.L   #ARRAY,A0
+    3                        
+    4  00008006 103C0000               MOVE.B    #0,D0
+    5                            
+    6  0000800A 0C000002     LOOP1:    CMPI.B    #2,D0
+    7  0000800E 6E00003E               BGT       EXIT
+    8                            
+    9  00008012 123C0001               MOVE.B    #1,D1
+   10  00008016 D200                   ADD.B     D0,D1
+   11  00008018 0C410003     LOOP2:    CMPI      #3,D1
+   12  0000801C 6E00002C               BGT       LEND
+   13                            
+   14  00008020 3400                   MOVE.W    D0,D2
+   15  00008022 C4FC0004               MULU.W    #4,D2
+   16  00008026 D441                   ADD.W     D1,D2                 ;;stores location of matrix[i][j]
+   17                                
+   18  00008028 13F020000000           MOVE.B    (A0,D2),TEMP          ;;stores matrix[i][j] in temp
+                9010        
+   19                                
+   20  00008030 3601                   MOVE.W    D1,D3
+   21  00008032 C6FC0004               MULU.W    #4,D3
+   22  00008036 D640                   ADD.W     D0,D3                 ;;stores location of matrix[j][i]
+   23                                
+   24  00008038 11B030002000           MOVE.B    (A0,D3),(A0,D2)       ;;puts value at matrix[j][i] int matrix[i][j]
+   25  0000803E 11B900009010           MOVE.B    TEMP,(A0,D3)          ;;puts temp into matrix[j][i]
+                3000        
+   26                            
+   27  00008046 5201                   ADD.B     #1,D1
+   28  00008048 60CE                   BRA       LOOP2
+   29  0000804A 5200         LEND:     ADD.B     #1,D0
+   30  0000804C 60BC                   BRA       LOOP1
+   31                                
+   32  0000804E 4E4E         EXIT:     TRAP      #14
+   33                        
+   34  00009000                        ORG       $9000
+   35  00009000 01020304     ARRAY:    DC.B      1,2,3,4
+   36  00009004 05060708               DC.B      5,6,7,8
+   37  00009008 090A0B0C               DC.B      9,10,11,12
+   38  0000900C 0D0E0F10               DC.B      13,14,15,16
+   39  00009010 00000001     TEMP:     DS.B      1
+   40                        
+   41           00008000               END       START
+
+Lines: 41, Errors: 0, Warnings: 0.

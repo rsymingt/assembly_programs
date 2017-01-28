@@ -1,0 +1,76 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 11/10/2016 7:34:37 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00009000                             7      ORG     $9000
+00009000= 0002                       8  X   DC.W    2
+00009002= 0002                       9  Y   DC.W    2
+00009004= 0002                      10  Z   DC.W    2
+00009006                            11  W   DS.W    1
+00009008                            12  
+00008000                            13      ORG    $8000
+00008000                            14  START: 
+00008000  4879 00009000             15      PEA X
+00008006  4879 00009002             16      PEA Y
+0000800C  4879 00009004             17      PEA Z
+00008012  4879 00009006             18      PEA W
+00008018  4EB9 00008020             19      JSR QUAD
+0000801E  4E4E                      20      TRAP    #14
+00008020                            21  
+00008020  4E56 0000                 22  QUAD    LINK    A6,#0
+00008024  48A7 F0F0                 23      MOVEM.W D0-D3/A0-A3,-(SP)
+00008028                            24      
+00008028  206E 0014                 25      MOVE.L  20(A6),A0
+0000802C  226E 0010                 26      MOVE.L  16(A6),A1
+00008030  246E 000C                 27      MOVE.L  12(A6),A2
+00008034  266E 0008                 28      MOVE.L  8(A6),A3
+00008038                            29      
+00008038  3010                      30      MOVE.W  (A0),d0
+0000803A  3211                      31      MOVE.W  (A1),d1
+0000803C  3412                      32      MOVE.W  (A2),d2
+0000803E                            33      
+0000803E  C1D0                      34      MULS.W  (A0),D0
+00008040  C1FC 0005                 35      MULS.W  #5,D0
+00008044                            36      
+00008044  C3D1                      37      MULS.W  (A1),D1
+00008046  C3FC 0004                 38      MULS.W  #4,D1
+0000804A                            39      
+0000804A  3600                      40      MOVE.W  D0,D3
+0000804C                            41      
+0000804C  9641                      42      SUB.W   D1,D3
+0000804E                            43      
+0000804E  C5D2                      44      MULS.W  (A2),D2
+00008050                            45      
+00008050  D642                      46      ADD.W   D2,D3
+00008052                            47      
+00008052  3683                      48      MOVE.W  D3,(A3)
+00008054                            49      
+00008054  4C9F 0F0F                 50      MOVEM.W (SP)+,D0-D3/A0-A3
+00008058  4E5E                      51      UNLK    A6
+0000805A  4E75                      52      RTS
+0000805C                            53      
+0000805C  FFFF FFFF                 54      SIMHALT             ; halt simulator
+00008060                            55  
+00008060                            56  * Put variables and constants here
+00008060                            57  
+00008060                            58      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+QUAD                8020
+START               8000
+W                   9006
+X                   9000
+Y                   9002
+Z                   9004

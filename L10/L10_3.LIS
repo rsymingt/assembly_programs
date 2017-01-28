@@ -1,0 +1,81 @@
+
+Source file: L10_3.X68
+Assembled on: 16-11-24 at: 18:33:53
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        ******************************************************
+    2                        * WIRE681.x68                                        *
+    3                        *                                                    *
+    4                        * This is a "wire" program.  It reads the 68681      *
+    5                        * input port and updates the output port, simulating *
+    6                        * wire connections, as follows:                      *
+    7                        *                                                    *
+    8                        *        IP0 ----> OP0                               *
+    9                        *        IP1 ----> OP1                               *
+   10                        *        IP2 ----> OP2                               *
+   11                        *        IP3 ----> OP3                               *
+   12                        *        IP4 ----> OP4                               *
+   13                        *        IP5 ----> OP5                               *
+   14                        ******************************************************
+   15           0000C001     DUART:    EQU       $00C001               ;;base address of 68681
+   16           0000001A     IPR:      EQU       13*2                  ;;input port register
+   17           0000001C     OPR_SET:  EQU       14*2                  ;;set bit command reg.
+   18           0000001E     OPR_CLR:  EQU       15*2                  ;;clear bit cmd. reg.
+   19           00000006     TBA:      EQU       6
+   20           00000002     SRA:      EQU       2
+   21                        
+   22  00008000                        ORG       $8000
+   23  00008000 207C0000C001 WIRE681:  MOVEA.L   #DUART,A0             ;;A0 points to 68681
+   24  00008006              LOOP:               
+   25  00008006 1E280002               MOVE.B    SRA(A0),D7
+   26  0000800A 02070001               ANDI.B    #1,D7
+   27  0000800E 67F6                   BEQ       LOOP
+   28  00008010 10280006               MOVE.B    TBA(A0),D0
+   29  00008014 0C000071               CMPI.B    #'q',D0
+   30  00008018 6700000A               BEQ       END
+   31  0000801C 4EB900008026           JSR       OUT681
+   32  00008022 60E2                   BRA       LOOP
+   33  00008024 4E4E         END:      TRAP      #14
+   34                        
+   35                        ******************************************************
+   36                        * OUT681 - OUTput data to 68681 output port          *
+   37                        *                                                    *
+   38                        *        ENTER:   D0[0:7] contains data to output    *
+   39                        *                 A0 points to 68681 DUART           *
+   40                        *        EXIT:    all registers intact               *
+   41                        *        USES:    no subroutines                     *
+   42                        ******************************************************
+   43  00008026 1140001E     OUT681:   MOVE.B    D0,OPR_CLR(A0)        ;;clr. bits, set pins
+   44  0000802A 4600                   NOT.B     D0
+   45  0000802C 1140001C               MOVE.B    D0,OPR_SET(A0)        ;;set bits, clr. pins
+   46  00008030 4600                   NOT.B     D0                    ;;restore D0
+   47  00008032 4E75                   RTS       
+   48                        
+   49  00008034 4E560000     SCAN:     LINK      A6,#0
+   50  00008038 48E78140               MOVEM.L   D0/A1/D7,-(SP)
+   51  0000803C 12FC000D               MOVE.B    #$0D,(A1)+
+   52  00008040 12FC000A               MOVE.B    #$0A,(A1)+
+   53                        
+   54  00008044 1E280002     SCAN2:    MOVE.B    SRA(A0),D7
+   55  00008048 02070001               ANDI.B    #1,D7
+   56  0000804C 67F6                   BEQ       SCAN2
+   57  0000804E 10280006               MOVE.B    TBA(A0),D0
+   58                         
+   59  00008052 0C00000D               CMPI.B    #$0D,D0
+   60  00008056 67000006               BEQ       ENDSCAN
+   61                         
+   62  0000805A 12C0                   MOVE.B    D0,(A1)+
+   63  0000805C 60E6                   BRA       SCAN2
+   64                         
+   65  0000805E 12FC0000     ENDSCAN:  MOVE.B    #0,(A1)+
+   66  00008062 4CDF0281               MOVEM.L   (SP)+,D0/A1/D7
+   67  00008066 4E5E                   UNLK      A6
+   68  00008068 4E75                   RTS       
+   69                        
+   70  0000A000                        ORG       $A000
+   71  0000A000 00000064     MESSAGE:  DS.B      100
+   72                        
+   73           00008000               END       WIRE681
+
+Lines: 73, Errors: 0, Warnings: 0.

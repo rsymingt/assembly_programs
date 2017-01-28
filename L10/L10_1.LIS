@@ -1,0 +1,47 @@
+
+Source file: L10_1.X68
+Assembled on: 16-11-24 at: 17:30:00
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1           0000C001     DUART:    EQU       $C001
+    2           00000002     SRA:      EQU       2
+    3           00000006     TBA:      EQU       6
+    4                        
+    5  00008000                        ORG       $8000
+    6  00008000 48454C4C4F00 MESSAGE:  DC.B      'HELLO',$00
+    7                        
+    8  00009000                        ORG       $9000
+    9  00009000 41F90000C001 START:    LEA       DUART,A0
+   10  00009006 43F900008000           LEA       MESSAGE,A1
+   11  0000900C 4EB900009014           JSR       PRINT
+   12  00009012 4E4E                   TRAP      #14
+   13                         
+   14                        
+   15  00009014 4E560000     PRINT:    LINK      A6,#0
+   16  00009018 48E78000               MOVEM.L   D0,-(SP)
+   17  0000901C 4280         PRINT2:   CLR.L     D0
+   18                        
+   19  0000901E 1019                   MOVE.B    (A1)+,D0
+   20  00009020 6700000A               BEQ       ENDP
+   21  00009024 4EB900009034           JSR       PRINTCHAR
+   22  0000902A 60F0                   BRA       PRINT2
+   23                         
+   24  0000902C 4CDF0001     ENDP:     MOVEM.L   (SP)+,D0
+   25  00009030 4E5E                   UNLK      A6
+   26  00009032 4E75                   RTS       
+   27                        
+   28  00009034              PRINTCHAR:           
+   29  00009034 48E78000               MOVEM.L   D0,-(SP)
+   30                        
+   31  00009038 1E280002     CHECK:    MOVE.B    SRA(A0),D7
+   32  0000903C 02070004               ANDI.B    #4,D7
+   33  00009040 67F6                   BEQ       CHECK
+   34  00009042 11400006               MOVE.B    D0,TBA(A0)
+   35                        
+   36  00009046 4CDF0001               MOVEM.L   (SP)+,D0
+   37  0000904A 4E75                   RTS       
+   38                        
+   39           00009000               END       START
+
+Lines: 39, Errors: 0, Warnings: 0.

@@ -1,0 +1,52 @@
+00009022 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 11/10/2016 6:56:07 PM
+
+00008000                             1      ORG $8000
+00008000  4DF8 7500                  2  START   LEA $7500,A6
+00008004  4EB9 00009022              3      JSR     main
+0000800A  4E4E                       4      TRAP    #14 
+0000800C                             5  
+00009000                             6      ORG $9000
+00009000  4E56 0000                  7  solvequad LINK A6,#0
+00009004  C1EE 000C                  8      MULS.W  12(A6),D0
+00009008  C1FC 0005                  9      MULS.W  #5,D0
+0000900C                            10      
+0000900C  C3EE 000C                 11      MULS.W  12(A6),D1
+00009010  C3FC 0002                 12      MULS.W  #2,D1
+00009014                            13      
+00009014  9041                      14      SUB.W   D1,D0
+00009016                            15      
+00009016  C5EE 0008                 16      MULS.W  8(A6),D2
+0000901A                            17      
+0000901A  D042                      18      ADD.W   D2,D0
+0000901C                            19      
+0000901C  3200                      20      MOVE.W  D0,D1
+0000901E                            21      
+0000901E  4E5E                      22      UNLK   A6
+00009020  4E75                      23      RTS
+00009022                            24      
+00009022  4E56 0000                 25  main LINK A6,#0
+00009026  303C 0004                 26      MOVE.W  #4,D0
+0000902A  323C 0005                 27      MOVE.W  #5,D1
+0000902E  343C 000A                 28      MOVE.W  #10,D2
+00009032                            29      
+00009032  3F00                      30      MOVE.W  D0,-(A7)
+00009034  3F01                      31      MOVE.W  D1,-(A7)
+00009036  3F02                      32      MOVE.W  D2,-(A7)
+00009038  4EB9 00009000             33      JSR     solvequad
+0000903E  4E5E                      34      UNLK    A6
+00009040  4E4E                      35      TRAP    #14
+00009042                            36  
+00009042                            37      END    main
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+MAIN                9022
+SOLVEQUAD           9000
+START               8000

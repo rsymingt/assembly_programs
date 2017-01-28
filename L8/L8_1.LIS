@@ -1,0 +1,40 @@
+
+Source file: L8_1.X68
+Assembled on: 16-11-10 at: 18:10:34
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                         
+    2  00008000                        ORG       $8000
+    3  00008000 4DF87500     START:    LEA       $7500,A6
+    4  00008004 4EB90000901C           JSR       MAIN
+    5  0000800A 4E4E                   TRAP      #14
+    6                        
+    7                         
+    8  00009000                        ORG       $9000
+    9  00009000 4E560000     SOLVEQUAD: LINK      A6,#0
+   10  00009004 302E0008               MOVE.W    8(A6),D0
+   11  00009008 3200                   MOVE.W    D0,D1
+   12  0000900A C3C0                   MULS.W    D0,D1
+   13  0000900C C3FC0005               MULS.W    #5,D1
+   14                            
+   15  00009010 E340                   ASL.W     #1,D0
+   16  00009012 9240                   SUB.W     D0,D1
+   17  00009014 E240                   ASR.W     #1,D0
+   18  00009016 5C41                   ADD.W     #6,D1
+   19                            
+   20  00009018 4E5E                   UNLK      A6
+   21  0000901A 4E75                   RTS       
+   22                            
+   23  0000901C 4E56FFFE     MAIN:     LINK      A6,#-2
+   24  00009020 3D7C0004FFFE           MOVE.W    #4,-2(A6)
+   25                        
+   26  00009026 3F2EFFFE               MOVE.W    -2(A6),-(A7)
+   27  0000902A 4EB900009000           JSR       SOLVEQUAD
+   28  00009030 3D41FFFE               MOVE.W    D1,-2(A6)
+   29  00009034 4E5E                   UNLK      A6
+   30  00009036 4E75                   RTS       
+   31                         
+   32           00008000               END       START
+
+Lines: 32, Errors: 0, Warnings: 0.

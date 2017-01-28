@@ -1,0 +1,54 @@
+
+Source file: L8_4.X68
+Assembled on: 16-11-10 at: 19:48:14
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        *-----------------------------------------------------------
+    2                        * Title      :
+    3                        * Written by :
+    4                        * Date       :
+    5                        * Description:
+    6                        *-----------------------------------------------------------
+    7  00008000                        ORG       $8000
+    8  00008000 0002         X:        DC.W      2
+    9  00008002 0002         Y:        DC.W      2
+   10  00008004 00000002     Z:        DS.W      1
+   11                        
+   12  00009000                        ORG       $9000
+   13  00009000 3F3900008000 START:    MOVE.W    X,-(SP)
+   14  00009006 3F3900008002           MOVE.W    Y,-(SP)
+   15  0000900C 487900008004           PEA       Z
+   16  00009012 4EB90000901A           JSR       QUAD
+   17  00009018 4E4E                   TRAP      #14
+   18                        
+   19  0000901A 4E560000     QUAD:     LINK      A6,#0
+   20  0000901E 48A7F080               MOVEM.W   D0-D3/A0,-(SP)
+   21                            
+   22  00009022 206E0008               MOVEA.L   8(A6),A0
+   23                            
+   24  00009026 302E000C               MOVE.W    12(A6),D0
+   25  0000902A 322E000E               MOVE.W    14(A6),D1
+   26  0000902E 342E000C               MOVE.W    12(A6),D2
+   27                            
+   28  00009032 C1EE000C               MULS.W    12(A6),D0
+   29  00009036 C3EE000E               MULS.W    14(A6),D1
+   30                            
+   31  0000903A C5EE000E               MULS.W    14(A6),D2
+   32  0000903E C5FC0002               MULS.W    #2,D2
+   33                            
+   34  00009042 3600                   MOVE.W    D0,D3
+   35  00009044 D641                   ADD.W     D1,D3
+   36  00009046 D642                   ADD.W     D2,D3
+   37                        
+   38  00009048 3083                   MOVE.W    D3,(A0)
+   39                            
+   40  0000904A 4C9F010F               MOVEM.W   (SP)+,D0-D3/A0
+   41  0000904E 4E5E                   UNLK      A6
+   42  00009050 4E75                   RTS       
+   43                        
+   44                        * Put variables and constants here
+   45                        
+   46           00009000               END       START                 ;; last line of source
+
+Lines: 46, Errors: 0, Warnings: 0.

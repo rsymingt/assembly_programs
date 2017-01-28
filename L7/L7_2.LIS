@@ -1,0 +1,29 @@
+
+Source file: L7_2.X68
+Assembled on: 16-11-03 at: 18:19:45
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1  00009000                        ORG       $9000
+    2  00009000 00000000     RESULT:   DC.L      0
+    3                        
+    4  00009500                        ORG       $9500
+    5  00009500 027CDFFF     START:    ANDI.W    #%1101111111111111,SR
+    6  00009504 4FF900008100           LEA       $8100,A7
+    7                        
+    8  0000950A 203C12345678           MOVE.L    #$12345678,D0
+    9  00009510 223C9ABCDEF0           MOVE.L    #$9ABCDEF0,D1
+   10  00009516 243C0FEDCBA9           MOVE.L    #$0FEDCBA9,D2
+   11                        
+   12  0000951C 4EB900009524           JSR       GENMUL
+   13  00009522 4E4E                   TRAP      #14
+   14                        
+   15  00009524 2F00         GENMUL:   MOVE.L    D0,-(A7)
+   16  00009526 2001                   MOVE.L    D1,D0
+   17  00009528 C1C2                   MULS      D2,D0
+   18  0000952A 23C000009000           MOVE.L    D0,RESULT
+   19  00009530 201F                   MOVE.L    (A7)+,D0
+   20  00009532 4E75                   RTS       
+   21           00009500               END       START
+
+Lines: 21, Errors: 0, Warnings: 0.

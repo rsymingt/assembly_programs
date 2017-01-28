@@ -1,0 +1,45 @@
+
+Source file: L8_2.X68
+Assembled on: 16-11-10 at: 18:17:14
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1  00008000                        ORG       $8000
+    2  00008000 4DF87500     START:    LEA       $7500,A6
+    3  00008004 4EB900009022           JSR       MAIN
+    4  0000800A 4E4E                   TRAP      #14
+    5                        
+    6  00009000                        ORG       $9000
+    7  00009000 4E560000     SOLVEQUAD: LINK      A6,#0
+    8  00009004 C1EE000C               MULS.W    12(A6),D0
+    9  00009008 C1FC0005               MULS.W    #5,D0
+   10                            
+   11  0000900C C3EE000C               MULS.W    12(A6),D1
+   12  00009010 C3FC0002               MULS.W    #2,D1
+   13                            
+   14  00009014 9041                   SUB.W     D1,D0
+   15                            
+   16  00009016 C5EE0008               MULS.W    8(A6),D2
+   17                            
+   18  0000901A D042                   ADD.W     D2,D0
+   19                            
+   20  0000901C 3200                   MOVE.W    D0,D1
+   21                            
+   22  0000901E 4E5E                   UNLK      A6
+   23  00009020 4E75                   RTS       
+   24                            
+   25  00009022 4E560000     MAIN:     LINK      A6,#0
+   26  00009026 303C0004               MOVE.W    #4,D0
+   27  0000902A 323C0005               MOVE.W    #5,D1
+   28  0000902E 343C000A               MOVE.W    #10,D2
+   29                            
+   30  00009032 3F00                   MOVE.W    D0,-(A7)
+   31  00009034 3F01                   MOVE.W    D1,-(A7)
+   32  00009036 3F02                   MOVE.W    D2,-(A7)
+   33  00009038 4EB900009000           JSR       SOLVEQUAD
+   34  0000903E 4E5E                   UNLK      A6
+   35  00009040 4E4E                   TRAP      #14
+   36                        
+   37           00009022               END       MAIN
+
+Lines: 37, Errors: 0, Warnings: 0.
