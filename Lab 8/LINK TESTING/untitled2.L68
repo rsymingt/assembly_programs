@@ -1,0 +1,59 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 11/10/2016 1:51:02 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00000000                             7  
+00009000                             8      ORG $9000
+00009000  4E56 0000                  9  solvequad LINK A6,#0
+00009004  302E 0008                 10      MOVE.W 8(A6),D0
+00009008  3200                      11      MOVE.W D0,D1
+0000900A  C3C0                      12      MULS.W D0,D1
+0000900C  C3FC 0005                 13      MULS.W #5,D1
+00009010                            14      
+00009010  E340                      15      ASL.W  #1,D0
+00009012  9240                      16      SUB.W  D0,D1
+00009014  E240                      17      ASR.W  #1,D0
+00009016  5C41                      18      ADD.W  #6,D1
+00009018                            19      
+00009018  4E5E                      20      UNLK   A6
+0000901A  4E75                      21      RTS
+0000901C                            22      
+0000901C  4E56 FFFE                 23  main LINK A6,#-2
+00009020  3D7C 0004 FFFE            24      MOVE.W  #4,-2(A6)
+00009026                            25  
+00009026  3F2E FFFE                 26      MOVE.W  -2(A6),-(A7)
+0000902A  4EB9 00009000             27      JSR     solvequad
+00009030  3D41 FFFE                 28      MOVE.W  D1,-2(A6)
+00009034  4E5E                      29      UNLK    A6
+00009036  4E75                      30      RTS
+00009038                            31  
+00009038                            32  
+00008000                            33      ORG    $8000
+00008000                            34  START:      
+00008000  4EB9 0000901C             35      JSR main
+00008006                            36              ; first instruction of program
+00008006                            37  
+00008006                            38  * Put program code here
+00008006                            39  
+00008006  FFFF FFFF                 40      SIMHALT             ; halt simulator
+0000800A                            41  
+0000800A                            42  * Put variables and constants here
+0000800A                            43  
+0000800A                            44      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+MAIN                901C
+SOLVEQUAD           9000
+START               8000

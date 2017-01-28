@@ -1,0 +1,51 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 11/10/2016 1:29:44 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00000000                             7      
+00009000                             8      ORG $9000
+00009000  4E56 0000                  9  adder LINK  A6,#0
+00009004  302E 0008                 10      MOVE.W  8(A6),D0
+00009008  D06E 000A                 11      ADD.W   10(A6),D0
+0000900C  4E5E                      12      UNLK    A6
+0000900E  4E75                      13      RTS
+00009010                            14      
+00009010  4E56 FFFA                 15  main LINK   A6,#-6
+00009014  3D7C 0001 FFFE            16      MOVE.W  #1,-2(A6)
+0000901A  3D7C 0002 FFFC            17      MOVE.W  #2,-4(A6)
+00009020                            18      
+00009020  3F2E FFFC                 19      MOVE.W  -4(A6),-(A7)
+00009024  3F2E FFFE                 20      MOVE.W  -2(A6),-(A7)
+00009028  4EB9 00009000             21      JSR     adder
+0000902E  3D40 FFFA                 22      MOVE.W  D0,-6(A6)
+00009032  4FEF 0004                 23      LEA 4(A7),A7
+00009036  4E5E                      24      UNLK    A6
+00009038  4E75                      25      RTS
+0000903A                            26      
+00008000                            27      ORG $8000
+00008000                            28  START:
+00008000  4EB9 00009010             29      JSR main
+00008006                            30  
+00008006                            31  
+00008006  FFFF FFFF                 32      SIMHALT             ; halt simulator
+0000800A                            33  
+0000800A                            34  * Put variables and constants here
+0000800A                            35  
+0000800A                            36      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ADDER               9000
+MAIN                9010
+START               8000
